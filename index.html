@@ -26,11 +26,11 @@
     <div class="card">
       <div class="card-body m-5">
         <div class="row">
-          <div class="col">
+          <div class="col-5">
             <h1 class="card-title" id="city">Warszawa</h1>
             <h6 id="date"></h6>
           </div>
-          <div class="col">
+          <div class="col-7">
             <form>
               <div class="input-group">
                 <input type="text" class="form-control form-control-lg" placeholder="Enter city" />
@@ -46,28 +46,29 @@
         </div>
         <div class="row">
           <div class="col-2 main-div">
-            <i class="fa-solid fa-sun main"></i>
+            <img src="https://fletprosty.pl/strona/wp-content/uploads/revslider/parallax_slider/sun.png"
+              class="main-icon"></img>
           </div>
           <div class="col-4">
             <div class="temp-main">
-              <a id="value" type="number">30</a>
+              <a id="value" type="number">19</a>
               <span class="units">
-                <a id="C" href="#">°C</a>
+                <a class="unit active" id="C" href="#">°C</a>
                 <a>|</a>
-                <a id="f" href="#">°F</a>
+                <a class="unit" id="f" href="#">°F</a>
               </span>
             </div>
           </div>
 
           <div class="col-3 offset-3 additions">
             <i class="fa-solid fa-water"></i><span> Humidity:</span>
-            <span>70%</span>
+            <span id="hum">70%</span>
             <br />
             <i class="fa-solid fa-wind"></i><span> Wind:</span>
-            <span>5km/h</span>
+            <span id="wind">5km/h</span>
             <br />
             <i class="fa-solid fa-droplet"></i><span> Rain:</span>
-            <span>0%</span>
+            <span id="rain">0%</span>
           </div>
         </div>
 

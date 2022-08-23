@@ -15,18 +15,18 @@ let day = date.getDay();
 let weekDay = week[day];
 
 let months = [
-  "January",
-  "February",
-  "March",
-  "April",
+  "Jan",
+  "Feb",
+  "Mar",
+  "Apr",
   "May",
-  "June",
-  "July",
-  "August",
-  "September",
-  "October",
-  "November",
-  "December"
+  "Jun",
+  "Jul",
+  "Aug",
+  "Sep",
+  "Oct",
+  "Nov",
+  "Dec"
 ];
 let month = date.getMonth();
 let monthName = months[month];
@@ -44,60 +44,84 @@ if (min < 10) {
   min = "0".concat(min);
 }
 
-console.log(hour, min);
-
-let currentDate = ` ${weekDay}, ${monthName} ${dayOfMonth}, ${year}, ${hour}:${min}`;
+let currentDate = ` ${weekDay}, ${monthName} ${dayOfMonth}, ${hour}:${min}, clear sky`;
 
 let dateHtml = document.querySelector("#date");
 dateHtml.innerHTML = currentDate;
 
-//Add a search engine, when searching for a city (i.e. Paris), display the city name on the page after the user submits the form.
-
 let city = document.querySelector(".card-title");
+let cityName = city.innerHTML;
 let btn = document.querySelector("#search");
 let cityInput = document.querySelector(".form-control");
 let mainTemp = document.querySelector("#value");
+
+let humidityField = document.querySelector("#hum");
+let windField = document.querySelector("#wind");
+let rainField = document.querySelector("#rain");
+let celciusSign = document.querySelector("#C");
+let farenheitSign = document.querySelector("#f");
+
+let tempCelcius = null;
+
+
+function onLoad() {
+  let url = `https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=${APIKey}&units=metric`;
+
+  axios.get(url).then((response) => {
+    tempCelcius = Math.round(response.data.main.temp);
+    let temperature = response.data.main.temp;
+    let citySearch = response.data.name;
+    let icon = response.data.weather[0].icon;
+    let iconUrl = `http://openweathermap.org/img/wn/${icon}@2x.png`;
+    let windSpeed = Math.round(response.data.wind.speed * 3.6);
+    let humidity = response.data.main.humidity;
+    let desc = response.data.weather[0].description;
+
+
+    document.querySelector(".main-icon").setAttribute("src", iconUrl);
+    humidityField.innerHTML = humidity + "%";
+    windField.innerHTML = windSpeed + "km/h";
+    currentDate = ` ${weekDay}, ${monthName} ${dayOfMonth}, ${hour}:${min}, ${desc}`;
+    dateHtml.innerHTML = currentDate;
+
+
+    city.innerHTML = citySearch;
+    mainTemp.innerHTML = Math.round(temperature);
+  });
+}
+
 function changeCity(event) {
   event.preventDefault();
   let citySearch = document.querySelector(".form-control").value;
   let url = `https://api.openweathermap.org/data/2.5/weather?q=${citySearch}&appid=${APIKey}&units=metric`;
 
   axios.get(url).then((response) => {
-    console.log(response);
+    tempCelcius = Math.round(response.data.main.temp);
     let temperature = response.data.main.temp;
     let citySearch = response.data.name;
-    console.log(temperature);
+    let icon = response.data.weather[0].icon;
+    let iconUrl = `http://openweathermap.org/img/wn/${icon}@2x.png`;
+    let windSpeed = Math.round(response.data.wind.speed * 3.6);
+    let humidity = response.data.main.humidity;
+    let desc = response.data.weather[0].description;
+
+
+    document.querySelector(".main-icon").setAttribute("src", iconUrl);
+    humidityField.innerHTML = humidity + "%";
+    windField.innerHTML = windSpeed + "km/h";
+    currentDate = ` ${weekDay}, ${monthName} ${dayOfMonth}, ${hour}:${min}, ${desc}`;
+    dateHtml.innerHTML = currentDate;
+
+
     city.innerHTML = citySearch;
     mainTemp.innerHTML = Math.round(temperature);
   });
-  // city.innerHTML = cityInput.value;
+
 }
 
-btn.addEventListener("click", changeCity);
-
-//Bonus Feature
-// Display a fake temperature (i.e 17) in Celsius and add a link to convert it to Fahrenheit. When clicking on it, it should convert the temperature to Fahrenheit. When clicking on Celsius, it should convert it back to Celsius.
-
-function changeUnits(event) {
-  let tempDay = 30;
-
-  let unit = event.target.id;
-
-  if (unit === "f") {
-    let calc = (tempDay * 9) / 5 + 32;
-    document.querySelector("#value").innerHTML = calc;
-  } else {
-    document.querySelector("#value").innerHTML = tempDay;
-  }
-}
-
-document.querySelector(".units").addEventListener("click", changeUnits);
-
-//koniec poprzedniego
-
-//Current location
 
 function setCurrentLoc(event) {
+
   event.preventDefault();
 
   navigator.geolocation.getCurrentPosition((position) => {
@@ -106,15 +130,51 @@ function setCurrentLoc(event) {
     let url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${APIKey}&units=metric`;
 
     axios.get(url).then((response) => {
-      console.log(response);
+      tempCelcius = Math.round(response.data.main.temp);
       let temperature = response.data.main.temp;
-      let city = response.data.name;
-      document.querySelector("#city").innerHTML = city;
-      document.querySelector("#value").innerHTML = Math.round(temperature);
+      let citySearch = response.data.name;
+      let icon = response.data.weather[0].icon;
+      let iconUrl = `http://openweathermap.org/img/wn/${icon}@2x.png`;
+      let windSpeed = Math.round(response.data.wind.speed * 3.6);
+      let humidity = response.data.main.humidity;
+      let desc = response.data.weather[0].description;
+
+
+      document.querySelector(".main-icon").setAttribute("src", iconUrl);
+      humidityField.innerHTML = humidity + "%";
+      windField.innerHTML = windSpeed + "km/h";
+      currentDate = ` ${weekDay}, ${monthName} ${dayOfMonth}, ${hour}:${min}, ${desc}`;
+      dateHtml.innerHTML = currentDate;
+
+
+      city.innerHTML = citySearch;
+      mainTemp.innerHTML = Math.round(temperature);
     });
   });
 }
 
-document.querySelector("#location").addEventListener("click", setCurrentLoc);
 
-//Weather API
+function changeUnits(event) {
+
+
+  let unit = event.target.id;
+
+  if (unit === "f") {
+    let calc = Math.round((tempCelcius * 9) / 5 + 32);
+    document.querySelector("#value").innerHTML = calc;
+    celciusSign.classList.remove("active");
+    farenheitSign.classList.add("active");
+  } else {
+    document.querySelector("#value").innerHTML = tempCelcius;
+    farenheitSign.classList.remove("active");
+    celciusSign.classList.add("active");
+  }
+}
+
+btn.addEventListener("click", changeCity);
+document.querySelector(".units").addEventListener("click", changeUnits);
+document.querySelector("#location").addEventListener("click", setCurrentLoc);
+onLoad();
+
+
+

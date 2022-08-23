@@ -2,18 +2,58 @@ body {
     font-family: 'Edu SA Beginner', cursive;
 }
 
-.container {
-    margin-top: 100px;
-    width: 1000px;
-}
-
-
-
-
-
 h4 {
     text-align: center;
 }
+
+p {
+    text-align: center;
+}
+
+.active {
+    color: black;
+    cursor: default;
+}
+
+.additions {
+    margin-top: 15px;
+    font-size: 20px;
+
+}
+
+.card {
+    background: linear-gradient(to top, #dfe9f3 0%, white 100%);
+    max-width: 1000px;
+    display: block;
+    margin: 0 auto;
+}
+
+.col .card {
+    transition: all 200ms ease-in-out;
+}
+
+.col .card:hover {
+    background: linear-gradient(to top, #09203f 0%, #537895 100%);
+
+}
+
+.col .card:hover .night {
+    display: block;
+}
+
+
+.col .card:hover .day {
+    display: none;
+}
+
+
+
+.container {
+    margin-top: 100px;
+    width: 80%;
+    margin-top: 100px;
+}
+
 
 .fa-solid.night {
     display: none;
@@ -39,14 +79,6 @@ h4 {
     color: rgb(252, 206, 0);
 }
 
-.main {
-    font-size: 120px;
-    text-align: right;
-
-}
-
-
-
 .fa-cloud {
     color: skyblue;
 }
@@ -55,7 +87,23 @@ h4 {
     color: rgb(56, 56, 82);
 }
 
+.main {
+    font-size: 150px;
+    text-align: right;
 
+}
+
+.main-icon {
+    display: block;
+    margin: 0 auto;
+    max-width: 150px;
+    min-width: 150px;
+
+}
+
+.night {
+    display: none;
+}
 
 .temp {
     text-align: center;
@@ -82,49 +130,18 @@ h4 {
     margin-top: 30px;
 }
 
-.night {
-    display: none;
-}
-
-p {
-    text-align: center;
-}
-
-.additions {
-    margin-top: 15px;
-    font-size: 20px;
-
-}
-
-.card {
-    background: linear-gradient(to top, #dfe9f3 0%, white 100%);
-}
-
-.col .card {
-    transition: all 200ms ease-in-out;
-}
-
-.col .card:hover {
-    background: linear-gradient(to top, #09203f 0%, #537895 100%);
-
-}
-
-.col .card:hover .night {
-    display: block;
+.unit {
+    text-decoration: none;
 }
 
 
-.col .card:hover .day {
-    display: none;
-}
-
-
-.units{
-    position:relative;
-    top:-30px;
+.units {
+    position: relative;
+    top: -30px;
 
     font-size: 20px;
-    font-weight: 200;
+    font-weight: bolder;
     margin-right: 10px;
     margin-top: 10px;
+
 }

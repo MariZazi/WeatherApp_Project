@@ -92,6 +92,9 @@ function onLoad() {
 
 function changeCity(event) {
   event.preventDefault();
+  farenheitSign.classList.remove("active");
+  celciusSign.classList.add("active");
+
   let citySearch = document.querySelector(".form-control").value;
   let url = `https://api.openweathermap.org/data/2.5/weather?q=${citySearch}&appid=${APIKey}&units=metric`;
 
@@ -123,6 +126,8 @@ function changeCity(event) {
 function setCurrentLoc(event) {
 
   event.preventDefault();
+  farenheitSign.classList.remove("active");
+  celciusSign.classList.add("active");
 
   navigator.geolocation.getCurrentPosition((position) => {
     let lon = position.coords.longitude;

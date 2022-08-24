@@ -76,6 +76,9 @@ function onLoad() {
     let windSpeed = Math.round(response.data.wind.speed * 3.6);
     let humidity = response.data.main.humidity;
     let desc = response.data.weather[0].description;
+    let lon = response.data.coord.lon;
+    let lat = response.data.coord.lat;
+    weatherForecast(lon, lat);
 
 
     document.querySelector(".main-icon").setAttribute("src", iconUrl);
@@ -107,16 +110,22 @@ function changeCity(event) {
     let windSpeed = Math.round(response.data.wind.speed * 3.6);
     let humidity = response.data.main.humidity;
     let desc = response.data.weather[0].description;
+    let lon = response.data.coord.lon;
+    let lat = response.data.coord.lat;
+    let country = response.data.sys.country;
+    weatherForecast(lon, lat);
 
 
     document.querySelector(".main-icon").setAttribute("src", iconUrl);
     humidityField.innerHTML = humidity + "%";
     windField.innerHTML = windSpeed + "km/h";
+
     currentDate = ` ${weekDay}, ${monthName} ${dayOfMonth}, ${hour}:${min}, ${desc}`;
     dateHtml.innerHTML = currentDate;
 
 
-    city.innerHTML = citySearch;
+    city.innerHTML = `${citySearch}<small style="font-weight:lighter">, ${country}</small>`;
+
     mainTemp.innerHTML = Math.round(temperature);
   });
 
@@ -132,6 +141,7 @@ function setCurrentLoc(event) {
   navigator.geolocation.getCurrentPosition((position) => {
     let lon = position.coords.longitude;
     let lat = position.coords.latitude;
+    weatherForecast(lon, lat);
     let url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${APIKey}&units=metric`;
 
     axios.get(url).then((response) => {
@@ -176,10 +186,58 @@ function changeUnits(event) {
   }
 }
 
+
+
+function weatherForecast(lon, lat) {
+  let urlAPI = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&appid=${APIKey}&units=metric`;
+
+  let forecastField = document.querySelector('#weather-forecast');
+  let fieldHTML = "";
+
+  axios.get(urlAPI).then((response) => {
+
+    let forecast = response.data.daily;
+
+    forecast.forEach(function (forecastDay, index) {
+      if (index < 5) {
+        let timestamp = forecastDay.dt;
+        let day = formatDate(timestamp);
+        let dayTemp = Math.round(forecastDay.temp.day);
+        let nightTemp = Math.round(forecastDay.temp.night);
+        let icon = forecastDay.weather[0].icon;
+
+        let iconUrl = `http://openweathermap.org/img/wn/${icon}@2x.png`;
+
+
+        fieldHTML = fieldHTML +
+          `<div class="col">
+              <div class="card rounded-pill shadow p-3 mb-1 bg-body rounded">
+                <div class="card-body">
+                  <h4>${day}</h4>
+                      <p class="temp-day day">${dayTemp}°C</p>
+                      <p class="temp-night night">${nightTemp}°C</p>
+                      <p><img class="icon-day day" src=${iconUrl}></img></p>
+                      <p><img class="icon night" src=${iconUrl}></img></p>
+                </div>
+              </div>
+            </div>`;
+      }
+    })
+
+    forecastField.innerHTML = fieldHTML;
+  });
+
+
+}
+
+function formatDate(timestamp) {
+  let date = new Date(timestamp * 1000);
+  let day = date.getDay();
+  let days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+  return days[day];
+}
+
 btn.addEventListener("click", changeCity);
 document.querySelector(".units").addEventListener("click", changeUnits);
 document.querySelector("#location").addEventListener("click", setCurrentLoc);
 onLoad();
-
-
-

@@ -22,8 +22,8 @@ p {
 }
 
 .card {
-    background: linear-gradient(to top, #dfe9f3 0%, white 100%);
-    max-width: 1000px;
+    background: linear-gradient(to top, #accbee 0%, #e7f0fd 100%);
+    max-width: 1100px;
     display: block;
     margin: 0 auto;
 }
@@ -33,12 +33,13 @@ p {
 }
 
 .col .card:hover {
-    background: linear-gradient(to top, #09203f 0%, #537895 100%);
+    background: linear-gradient(115.7deg, rgb(3, 79, 135) 6.2%, rgb(0, 184, 214) 112.9%);
 
 }
 
 .col .card:hover .night {
     display: block;
+    margin: 0 auto;
 }
 
 
@@ -55,10 +56,10 @@ p {
 }
 
 
-.fa-solid.night {
+/* .fa-solid.night {
     display: none;
     color: antiquewhite;
-}
+} */
 
 .fa-solid {
     text-align: center;
@@ -75,17 +76,17 @@ p {
 }
 
 
-.fa-sun {
+/* .fa-sun {
     color: rgb(252, 206, 0);
-}
+} */
 
-.fa-cloud {
+/* .fa-cloud {
     color: skyblue;
-}
+} */
 
-.fa-cloud-bolt {
+/* .fa-cloud-bolt {
     color: rgb(56, 56, 82);
-}
+} */
 
 .main {
     font-size: 150px;

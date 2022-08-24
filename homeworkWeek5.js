@@ -78,6 +78,7 @@ function onLoad() {
     let desc = response.data.weather[0].description;
     let lon = response.data.coord.lon;
     let lat = response.data.coord.lat;
+    let country = response.data.sys.country;
     weatherForecast(lon, lat);
 
 
@@ -88,14 +89,13 @@ function onLoad() {
     dateHtml.innerHTML = currentDate;
 
 
-    city.innerHTML = citySearch;
+    city.innerHTML = `${citySearch}<small style="font-weight:lighter">, ${country}</small>`;
     mainTemp.innerHTML = Math.round(temperature);
   });
 }
 
 function changeCity(event) {
   event.preventDefault();
-  farenheitSign.classList.remove("active");
   celciusSign.classList.add("active");
 
   let citySearch = document.querySelector(".form-control").value;
@@ -135,7 +135,7 @@ function changeCity(event) {
 function setCurrentLoc(event) {
 
   event.preventDefault();
-  farenheitSign.classList.remove("active");
+
   celciusSign.classList.add("active");
 
   navigator.geolocation.getCurrentPosition((position) => {
@@ -153,6 +153,7 @@ function setCurrentLoc(event) {
       let windSpeed = Math.round(response.data.wind.speed * 3.6);
       let humidity = response.data.main.humidity;
       let desc = response.data.weather[0].description;
+      let country = response.data.sys.country;
 
 
       document.querySelector(".main-icon").setAttribute("src", iconUrl);
@@ -162,29 +163,14 @@ function setCurrentLoc(event) {
       dateHtml.innerHTML = currentDate;
 
 
-      city.innerHTML = citySearch;
+      city.innerHTML = `${citySearch}<small style="font-weight:lighter">, ${country}</small>`;
       mainTemp.innerHTML = Math.round(temperature);
     });
   });
 }
 
 
-function changeUnits(event) {
 
-
-  let unit = event.target.id;
-
-  if (unit === "f") {
-    let calc = Math.round((tempCelcius * 9) / 5 + 32);
-    document.querySelector("#value").innerHTML = calc;
-    celciusSign.classList.remove("active");
-    farenheitSign.classList.add("active");
-  } else {
-    document.querySelector("#value").innerHTML = tempCelcius;
-    farenheitSign.classList.remove("active");
-    celciusSign.classList.add("active");
-  }
-}
 
 
 
@@ -238,6 +224,5 @@ function formatDate(timestamp) {
 }
 
 btn.addEventListener("click", changeCity);
-document.querySelector(".units").addEventListener("click", changeUnits);
 document.querySelector("#location").addEventListener("click", setCurrentLoc);
 onLoad();

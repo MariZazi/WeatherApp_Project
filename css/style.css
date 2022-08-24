@@ -10,10 +10,7 @@ p {
     text-align: center;
 }
 
-.active {
-    color: black;
-    cursor: default;
-}
+
 
 .additions {
     margin-top: 15px;
@@ -56,10 +53,6 @@ p {
 }
 
 
-/* .fa-solid.night {
-    display: none;
-    color: antiquewhite;
-} */
 
 .fa-solid {
     text-align: center;
@@ -76,17 +69,7 @@ p {
 }
 
 
-/* .fa-sun {
-    color: rgb(252, 206, 0);
-} */
 
-/* .fa-cloud {
-    color: skyblue;
-} */
-
-/* .fa-cloud-bolt {
-    color: rgb(56, 56, 82);
-} */
 
 .main {
     font-size: 150px;
@@ -133,16 +116,18 @@ p {
 
 .unit {
     text-decoration: none;
+    color: black;
 }
 
 
 .units {
     position: relative;
-    top: -30px;
+    top: -25px;
 
-    font-size: 20px;
+    font-size: 25px;
     font-weight: bolder;
-    margin-right: 10px;
+    margin-right: 0px;
     margin-top: 10px;
+
 
 }
